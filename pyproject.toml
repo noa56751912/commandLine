@@ -1,7 +1,7 @@
 [project]
 name = "commandline"
 version = "0.1.0"
-description = "Add your description here"
+description = "Translate natural-language requests (Hebrew or English) into Windows CMD commands using an LLM"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
