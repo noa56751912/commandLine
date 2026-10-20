@@ -26,7 +26,7 @@ def main():
         outputs=gr.Textbox(label="Command"),
         title="AI Command-Line Assistant",
         description="Describe a task in Hebrew or English and get the matching Windows CMD command. "
-                    "Returns NULL for unclear or dangerous requests.",
+                    "Returns NULL with a reason for unclear, impossible or dangerous requests.",
         examples=["כמה קבצים יש לי בתיקיית ההורדות?", "List the files on my desktop"],
     )
     app.launch()

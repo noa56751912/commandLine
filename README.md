@@ -7,6 +7,8 @@ Windows CMD command.
 
 The tool only **suggests** a command. It never runs anything, so you review the command before using it.
 
+![The assistant answering "List the files on my desktop"](docs/screenshot.png)
+
 ## How it works
 
 `main.py` sends your request to an OpenAI model (`gpt-4o-mini`, temperature 0)
@@ -15,8 +17,9 @@ text-to-command translator. A small Gradio web page provides the UI.
 
 ## Safety rules in the prompt
 
-- Returns `NULL` for requests that are dangerous (e.g. disabling security),
-  unclear, or not possible in CMD.
+- Refuses requests that are dangerous (e.g. disabling security), unclear, or
+  not possible in CMD, and always says why, in the language of the request:
+  `NULL: Turning off the firewall can expose your computer to security risks.`
 - Ignores prompt-injection attempts ("ignore all previous instructions...").
 - Judges a command by its effect: anything whose output could hand someone
   access (saved passwords, stored credentials, all environment variables)
@@ -43,15 +46,16 @@ Open http://127.0.0.1:7860 in your browser.
 ## Tests
 
 `tests.py` sends a fixed list of requests to the model and checks each answer:
-dangerous or secret-revealing requests must return `NULL`, the rest must
-return a command, and no command may use `/Q` or `/Y`.
+dangerous or secret-revealing requests must be refused with a reason in the
+request's language, the rest must return a command, and no command may use
+`/Q` or `/Y`.
 
 ```bash
 uv run tests.py
 ```
 
 When a new case comes up, add it to `CASES` first, then adjust the prompt
-until every case passes. Each run makes 12 calls to the OpenAI API.
+until every case passes. Each run makes 14 calls to the OpenAI API.
 
 ## Tech
 
